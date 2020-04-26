@@ -90,8 +90,8 @@ def main(arguments):
         formatter_class=argparse.RawDescriptionHelpFormatter)
     parser.add_argument('-c', '--configfile', help="Config file")
     parser.add_argument('-o', '--outputfile', help="Output file", required=False)
-    parser.add_argument('-i', '--interval', help="Intervals (seconds)", required=False, type=float ,default=0.5)
-    parser.add_argument('-n', '--count', help="Number of readings (-1 = infinite)", required=False, type=float, default=10)
+    parser.add_argument('--interval', help="Intervals (seconds)", required=False, type=float ,default=0.5)
+    parser.add_argument('--count', help="Number of readings (-1 = infinite)", required=False, type=float, default=10)
     args = parser.parse_args(arguments)
 
     if args.configfile:

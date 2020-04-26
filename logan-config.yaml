@@ -1,8 +1,5 @@
 settings:
-    interval_secs: 0.1
-    iterations: 20
     timestamp_format: '%Y-%m-%d %H:%M:%S.%f'
-    destination: screen
 available_destinations:
     - screen:
     - mqtt:
