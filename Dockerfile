@@ -1,8 +1,9 @@
-FROM python:3
+FROM python:alpine3.7
 
-ADD dummy-sensor.py /
-ADD logan-config.yaml /
+COPY . /app
+WORKDIR /app
 
-RUN pip install pyyaml
+RUN pip install --upgrade pip
+RUN pip install -r requirements.txt
 
 CMD [ "python", "dummy-sensor.py", "-c", "logan-config.yaml" ]
