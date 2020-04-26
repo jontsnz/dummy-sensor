@@ -6,7 +6,7 @@ available_destinations:
         port: 9999
         queue: wq
 station:
-    station_name: 'LoganRiverWQTest'
+    station_name: 'DummyRiverWQ'
     sensors:
         - LoggerBattV:
             min: 8

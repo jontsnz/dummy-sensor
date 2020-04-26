@@ -22,4 +22,4 @@ ARG count
 ENV COUNT=$count
 RUN echo "COUNT: $count"
 
-CMD ["sh", "-c", "echo $INTERVAL; echo $COUNT; echo $MQTT_TOPIC; echo $MQTT_HOSTNAME; echo $MQTT_PORT; python dummy-sensor.py -c logan-config.yaml --count $COUNT --interval $INTERVAL --mqtt_topic $MQTT_TOPIC --mqtt_hostname $MQTT_HOSTNAME --mqtt_port $MQTT_PORT"]
+CMD ["sh", "-c", "echo $INTERVAL; echo $COUNT; echo $MQTT_TOPIC; echo $MQTT_HOSTNAME; echo $MQTT_PORT; python dummy-sensor.py -c wq-config.yaml --count $COUNT --interval $INTERVAL --mqtt_topic $MQTT_TOPIC --mqtt_hostname $MQTT_HOSTNAME --mqtt_port $MQTT_PORT"]

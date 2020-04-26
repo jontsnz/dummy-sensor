@@ -18,7 +18,7 @@ docker compose build
 
 ### Sensor configuration
 
-The sensor readings are configured in the ```logan-config.yaml``` file which is built into the container. If you want to add/remove sensors or changes sensor parameters, you need to edit this file and rebuild the image.
+The sensor readings are configured in the ```wq-config.yaml``` file which is built into the container. If you want to add/remove sensors or changes sensor parameters, you need to edit this file and rebuild the image.
 
 ### Starting the sensor and MQTT and push readings to MQTT
 
@@ -46,8 +46,8 @@ Alternatively, you can run the sensor directly from your Python virtual environm
 pip install -r requirements.txt
 
 # Output readings to screen
-python dummy-sensor.py -c logan-config.yaml --interval 0.1 --count 30
+python dummy-sensor.py -c wq-config.yaml --interval 0.1 --count 30
 
 # Output readings to file
-python dummy-sensor.py -c logan-config.yaml --interval 0.1 --count 30 -o wq-data.txt
+python dummy-sensor.py -c wq-config.yaml --interval 0.1 --count 30 -o wq-data.txt
 ```
