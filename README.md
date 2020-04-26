@@ -20,7 +20,7 @@ docker compose build
 
 The sensor readings are configured in the ```wq-config.yaml``` file which is built into the container. If you want to add/remove sensors or changes sensor parameters, you need to edit this file and rebuild the image.
 
-### Starting the sensor and MQTT and push readings to MQTT
+### Start the sensor and MQTT and push readings to MQTT
 
 Use ```docker-compose``` to start up the MQTT server and start the dummy sensor. The dummy sensor will push data to MQTT in JSON format. The dummy-server service in the doocker-compose.yaml contains configuration parameters that you might want to change.
 
@@ -44,7 +44,7 @@ And you can stop it by:
 docker-compose down
 ```
 
-### Starting the sensor directly
+### Start the sensor directly
 
 Alternatively, you can run the sensor directly from your Python virtual environment:
 
@@ -56,4 +56,7 @@ python dummy-sensor.py -c wq-config.yaml --interval 0.1 --count 30
 
 # Output readings to file
 python dummy-sensor.py -c wq-config.yaml --interval 0.1 --count 30 -o wq-data.txt
+
+# Output readings to a locally available MQTT server
+python dummy-sensor.py -c wq-config.yaml --interval 0.1 --count 30 --mqtt-topic topic/dummy-sensor --mqtt-hostname localhost --mqtt-port 1833
 ```
