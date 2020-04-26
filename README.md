@@ -29,13 +29,19 @@ Use ```docker-compose``` to start up the MQTT server and start the dummy sensor.
 - **mqtt_topic** This is the MQTT topic that the sensor readings will be published to. Currently set to ```topic/dummy-sensor```
 
 ```bash
-docker-compose up
+docker-compose up -d
 ```
 
 Use a mosquitto client (eg. [Eclipse Mosquitto](https://mosquitto.org/)) to check that the duumy sensor is ending readings.
 
 ```bash
 mosquitto_sub -p 1883 -t topic/dummy-sensor
+```
+
+And you can stop it by:
+
+```bash
+docker-compose down
 ```
 
 ### Starting the sensor directly
