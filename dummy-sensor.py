@@ -11,6 +11,7 @@ from datetime import datetime
 from abc import ABC, abstractmethod
 import csv
 import json
+import paho.mqtt.client as mqtt
 
 class ReadingsOutputter(ABC):
 
@@ -39,6 +40,22 @@ class CSVOutputter(ReadingsOutputter):
             self._csvfile.writerow(t[0] for t in readings)
             self._first_line = False
         self._csvfile.writerow(t[1] for t in readings)
+
+class MqttOutputter(ReadingsOutputter):
+
+    def __init__(self, host, port, topic):
+        super().__init__()
+        self._client = mqtt.Client()
+        self._topic = topic
+        keepalive = 60
+        self._client.connect(host,port,keepalive)
+
+    def output(self, readings):
+        print('Pushing readings to MQTT...%s' % (readings[0][1]))
+        self._client.publish(self._topic,json.dumps(dict(readings)))
+
+    def __del__(self):
+        self._client.disconnect()
 
 class Station:
     def __init__(self, station_config):
@@ -92,6 +109,7 @@ def main(arguments):
     parser.add_argument('-o', '--outputfile', help="Output file", required=False)
     parser.add_argument('--interval', help="Intervals (seconds)", required=False, type=float ,default=0.5)
     parser.add_argument('--count', help="Number of readings (-1 = infinite)", required=False, type=float, default=10)
+    parser.add_argument('--mqtt_topic', help="The MQTT topic to publish", required=False, default='topic/dummy-sensor')
     args = parser.parse_args(arguments)
 
     if args.configfile:
@@ -103,7 +121,13 @@ def main(arguments):
     else:
         print('Config file must be provided')
 
-    if args.outputfile:
+    if args.mqtt_topic:
+        host = "localhost"
+        port = 1883
+        topic = args.mqtt_topic
+        print('Sending output to MQTT %s:%s on %s' % (host, port, topic))
+        outputter = MqttOutputter(host, port, topic)
+    elif args.outputfile:
         print('Sending output to file %s' % args.outputfile)
         outputter = CSVOutputter(args.outputfile)
     else:
