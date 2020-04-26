@@ -8,16 +8,39 @@ available_destinations:
 station:
     station_name: 'LoganRiverWQTest'
     sensors:
-        - EXO_TempC:
-            min: 0
-            max: 40
-            start: 24.212
-            dp: 3
-            max_step: 0.1
         - LoggerBattV:
             min: 8
             max: 16
             start: 12.73
             dp: 2
             max_step: 0.2
-    
+        - EXO_TempC:
+            min: 0
+            max: 40
+            start: 24.212
+            dp: 3
+            max_step: 0.1
+        - EXO_pH:
+            min: 6
+            max: 9
+            start: 7.4
+            dp: 2
+            max_step: 0.03
+        - EXO_DOPerSat:
+            min: 0
+            max: 100
+            start: 75
+            dp: 2
+            max_step: 5
+        - EXO_TurbNTU:
+            min: 0
+            max: 150
+            start: 15
+            dp: 2
+            max_step: 40
+        - EXO_Depthm:
+            min: 1
+            max: 3
+            start: 1.7
+            dp: 3
+            max_step: 0.15
