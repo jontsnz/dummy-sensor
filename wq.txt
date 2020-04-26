@@ -1,0 +1,6 @@
+"TIMESTAMP","RECORD","Station","EXO_TempC","LoggerBattV"
+"2020-04-26 12:32:30",1,"LoganRiverWQTest",24.283,12.75
+"2020-04-26 12:32:32",2,"LoganRiverWQTest",24.304,12.9
+"2020-04-26 12:32:34",3,"LoganRiverWQTest",24.381,13.1
+"2020-04-26 12:32:36",4,"LoganRiverWQTest",24.303,13.18
+"2020-04-26 12:32:38",5,"LoganRiverWQTest",24.317,13.31

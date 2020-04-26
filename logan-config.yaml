@@ -1,0 +1,26 @@
+settings:
+    interval_secs: 0.1
+    iterations: 20
+    timestamp_format: '%Y-%m-%d %H:%M:%S.%f'
+    destination: screen
+available_destinations:
+    - screen:
+    - mqtt:
+        port: 9999
+        queue: wq
+station:
+    station_name: 'LoganRiverWQTest'
+    sensors:
+        - EXO_TempC:
+            min: 0
+            max: 40
+            start: 24.212
+            dp: 3
+            max_step: 0.1
+        - LoggerBattV:
+            min: 8
+            max: 16
+            start: 12.73
+            dp: 2
+            max_step: 0.2
+    
