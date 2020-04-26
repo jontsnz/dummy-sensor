@@ -71,9 +71,8 @@ class Sensor:
         self._last_direction = direction
         return reading
 
-def generate_readings(config, outputter):
+def generate_readings(config, intervals_secs, max_iterations, outputter):
     station = Station(config['station'])
-    max_iterations = config['settings']['iterations']
     print('Generating %d readings for station: %s' % (max_iterations, station.station_name))
     cnt = 0
     while (cnt < max_iterations) or (max_iterations == -1):
@@ -82,7 +81,7 @@ def generate_readings(config, outputter):
         readings = [('TIMESTAMP', timestamp),('RECORD', cnt),('Station', station.station_name)]
         readings.extend([(s.name, s.generate_reading()) for s in station.sensors])
         outputter.output(readings)
-        time.sleep(config['settings']['interval_secs'])
+        time.sleep(intervals_secs)
 
 def main(arguments):
 
@@ -91,6 +90,8 @@ def main(arguments):
         formatter_class=argparse.RawDescriptionHelpFormatter)
     parser.add_argument('-c', '--configfile', help="Config file")
     parser.add_argument('-o', '--outputfile', help="Output file", required=False)
+    parser.add_argument('-i', '--interval', help="Intervals (seconds)", required=False, type=float ,default=0.5)
+    parser.add_argument('-n', '--count', help="Number of readings (-1 = infinite)", required=False, type=float, default=10)
     args = parser.parse_args(arguments)
 
     if args.configfile:
@@ -109,7 +110,7 @@ def main(arguments):
         outputter = ScreenJsonOutputter()
 
     if config:
-        generate_readings(config, outputter)
+        generate_readings(config, args.interval, args.count, outputter)
 
 if __name__ == '__main__':
     sys.exit(main(sys.argv[1:]))
