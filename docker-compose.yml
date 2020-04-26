@@ -1,11 +1,29 @@
 version: '3.7'
 services:
     dummy-sensor:
-        image: itfitz.com.au/dummy-sensor/dummy-sensor:2.0.0-beta
-        # ports:
-        #     - "9999:9999"
-        volumes:
-            - dummy-sensor-storage:./storage
+        build: 
+            context: .
+            args:
+                mqtt_topic: 'topic/dummy-sensor'
+                mqtt_hostname: 'mosquitto'
+                mqtt_port: 1883
+                count: -1
+                interval: 0.5
+        container_name: dummy-sensor
+        depends_on:
+            - mqtt
+        networks:
+            - default
 
-volumes:
-    dummy-sensor-storage::
+    mqtt:
+        image: eclipse-mosquitto
+        container_name: mosquitto
+        expose:
+            - "1883"
+        ports:
+            - "1883:1883"
+        networks:
+            - default
+
+networks:
+    default:

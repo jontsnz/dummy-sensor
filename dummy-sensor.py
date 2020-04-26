@@ -108,8 +108,10 @@ def main(arguments):
     parser.add_argument('-c', '--configfile', help="Config file")
     parser.add_argument('-o', '--outputfile', help="Output file", required=False)
     parser.add_argument('--interval', help="Intervals (seconds)", required=False, type=float ,default=0.5)
-    parser.add_argument('--count', help="Number of readings (-1 = infinite)", required=False, type=float, default=10)
-    parser.add_argument('--mqtt_topic', help="The MQTT topic to publish", required=False, default='topic/dummy-sensor')
+    parser.add_argument('--count', help="Number of readings (-1 = infinite)", required=False, type=float, default=5)
+    parser.add_argument('--mqtt_topic', help="The MQTT topic to publish", required=False)
+    parser.add_argument('--mqtt_hostname', help="The MQTT hostname", required=False, default='localhost')
+    parser.add_argument('--mqtt_port', help="The MQTT port", required=False, type=int, default=1883)
     args = parser.parse_args(arguments)
 
     if args.configfile:
@@ -122,8 +124,8 @@ def main(arguments):
         print('Config file must be provided')
 
     if args.mqtt_topic:
-        host = "localhost"
-        port = 1883
+        host = args.mqtt_hostname
+        port = args.mqtt_port
         topic = args.mqtt_topic
         print('Sending output to MQTT %s:%s on %s' % (host, port, topic))
         outputter = MqttOutputter(host, port, topic)
