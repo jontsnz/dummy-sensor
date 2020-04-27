@@ -1,10 +1,5 @@
 settings:
     timestamp_format: '%Y-%m-%d %H:%M:%S.%f'
-available_destinations:
-    - screen:
-    - mqtt:
-        port: 9999
-        queue: wq
 station:
     station_name: 'DummyRiverWQ'
     sensors:
