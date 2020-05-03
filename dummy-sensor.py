@@ -8,6 +8,7 @@ import yaml
 import random
 import time
 from datetime import datetime
+from datetime import timedelta
 from abc import ABC, abstractmethod
 import csv
 import json
@@ -100,6 +101,21 @@ def generate_readings(config, intervals_secs, max_iterations, outputter):
         outputter.output(readings)
         time.sleep(intervals_secs)
 
+def generate_backfill_readings(config, intervals_secs, outputter, from_date):
+    station = Station(config['station'])
+    print('Generating backfill readings for station: %s since %s' % (station.station_name, from_date))
+    cnt = 0
+    next_time = from_date
+    while (next_time < datetime.now()):
+        cnt += 1
+        if cnt % 1000 == 0:
+            print('Date %s, count=%d' % (next_time, cnt))
+        timestamp = next_time.strftime(config['settings']['timestamp_format'])
+        readings = [('TIMESTAMP', timestamp),('RECORD', cnt),('Station', station.station_name)]
+        readings.extend([(s.name, s.generate_reading()) for s in station.sensors])
+        outputter.output(readings)
+        next_time = next_time + timedelta(seconds=intervals_secs)
+
 def main(arguments):
 
     parser = argparse.ArgumentParser(
@@ -112,6 +128,7 @@ def main(arguments):
     parser.add_argument('--mqtt_topic', help="The MQTT topic to publish", required=False)
     parser.add_argument('--mqtt_hostname', help="The MQTT hostname", required=False, default='localhost')
     parser.add_argument('--mqtt_port', help="The MQTT port", required=False, type=int, default=1883)
+    parser.add_argument('--backfill_from', help="Backfill readings starting from this date eg. 2020-01-31", required=False)
     args = parser.parse_args(arguments)
 
     if args.configfile:
@@ -136,7 +153,12 @@ def main(arguments):
         outputter = ScreenJsonOutputter()
 
     if config:
-        generate_readings(config, args.interval, args.count, outputter)
+        if args.backfill_from:
+            from_date = datetime.strptime(args.backfill_from, '%Y-%m-%d')
+            print('Back-filling data from %s' % from_date)
+            generate_backfill_readings(config, args.interval, outputter, from_date)
+        else:
+            generate_readings(config, args.interval, args.count, outputter)
 
 if __name__ == '__main__':
     sys.exit(main(sys.argv[1:]))
