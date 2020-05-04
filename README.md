@@ -13,7 +13,7 @@ You will need Docker Compose and Docker installed.
 Use ```docker-compose``` to build the images:
 
 ```bash
-docker compose build
+docker-compose build
 ```
 
 ### Sensor configuration
