@@ -50,9 +50,11 @@ class MqttOutputter(ReadingsOutputter):
         self._topic = topic
         keepalive = 60
         self._client.connect(host,port,keepalive)
-
+        self.silent = False
+ 
     def output(self, readings):
-        print('Pushing readings to MQTT...%s' % (readings[0][1]))
+        if not self.silent:
+            print('Pushing readings to MQTT...%s' % (readings[0][1]))
         self._client.publish(self._topic,json.dumps(dict(readings)))
 
     def __del__(self):
@@ -156,6 +158,7 @@ def main(arguments):
         if args.backfill_from:
             from_date = datetime.strptime(args.backfill_from, '%Y-%m-%d')
             print('Back-filling data from %s' % from_date)
+            outputter.silent = True
             generate_backfill_readings(config, args.interval, outputter, from_date)
         else:
             generate_readings(config, args.interval, args.count, outputter)
