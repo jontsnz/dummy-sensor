@@ -60,3 +60,11 @@ python dummy-sensor.py -c wq-config.yaml --interval 0.1 --count 30 -o wq-data.tx
 # Output readings to a locally available MQTT server
 python dummy-sensor.py -c wq-config.yaml --interval 0.1 --count 30 --mqtt-topic topic/dummy-sensor --mqtt-hostname localhost --mqtt-port 1833
 ```
+
+### Backfill data
+
+If you want to backfill with historical data, use the ```backfill_date``` parameter:
+
+```bash
+python dummy-sensor.py -c wq-config.yaml --interval 600 --backfill_from 2020-04-03 --mqtt_topic topic/dummy-sensor
+```
